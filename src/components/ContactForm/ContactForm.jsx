@@ -3,8 +3,17 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useId } from 'react';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contactsSlice';
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
+
+  const handleAddContact = (value, actions) => {
+    dispatch(addContact(value));
+    actions.resetForm();
+  };
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, 'Minimum 3 letters')
@@ -21,10 +30,10 @@ const ContactForm = ({ addContact }) => {
   const nameId = useId();
   const numberId = useId();
 
-  const handleSubmit = (values, actions) => {
-    addContact(values);
-    actions.resetForm();
-  };
+  // const handleSubmit = (values, actions) => {
+  //   addContact(values);
+  //   actions.resetForm();
+  // };
 
   return (
     <Formik
@@ -33,7 +42,7 @@ const ContactForm = ({ addContact }) => {
         number: '',
         id: nanoid(),
       }}
-      onSubmit={handleSubmit}
+      onSubmit={handleAddContact}
       validationSchema={validationSchema}
     >
       <Form className={css.form}>
