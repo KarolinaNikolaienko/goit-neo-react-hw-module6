@@ -15,7 +15,7 @@ const ContactList = () => {
     );
   });
 
-  if (contacts)
+  if (searchedContacts && searchedContacts.length > 0)
     return (
       <>
         <ul className={css.contactList}>
